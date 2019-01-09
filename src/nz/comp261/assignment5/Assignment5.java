@@ -411,7 +411,7 @@ public class Assignment5 {
 	/**
 	 * A helper method for reading a file into a string.
 	 */
-	private static String readFile(File file) {
+	public static String readFile(File file) {
 		try {
 			byte[] encoded = Files.readAllBytes(file.toPath());
 			return new String(encoded, CHARSET);
