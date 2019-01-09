@@ -14,7 +14,6 @@ public class KMP {
 		this.pattern = pattern;
 		this.text = text;
 		
-		this.matchTable = constructMatchTable(pattern);
 		
 	}
 
@@ -25,6 +24,8 @@ public class KMP {
 	 * exists, or -1 if it doesn't.
 	 */
 	public int search(String pattern, String text) {
+		this.matchTable = constructMatchTable(pattern);
+
 		int k = 0; //start of current match in text
 		int i = 0; //position of current character in pattern
 		int n = text.length();
