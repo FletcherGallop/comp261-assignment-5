@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -65,8 +66,8 @@ class part1Tests {
 		KMP kmp = new KMP(pattern, text);
 		
 		assertTrue(text.length() != 0);
-//		System.out.println(kmp.bruteForceAlgorithm(pattern, text));
-//		assertTrue(kmp.bruteForceAlgorithm(pattern, text));
+		assertTrue(kmp.bruteForceAlgorithm(pattern, text) != -1); //Is present
+		
 		assert(true);
 		
 	}
@@ -77,7 +78,108 @@ class part1Tests {
 		String pattern = "concious";
 		KMP kmp = new KMP(pattern, text);
 		
-		System.out.println(kmp.search(pattern, text));
+		assertTrue(text.length() != 0);
+		assertTrue(kmp.bruteForceAlgorithm(pattern, text) != -1); //Is present
+		
 	}
+	
+	@Test
+	void test6() {
+		String text = DEFAULT_STRING;
+		String pattern = "concious";
+		KMP kmp = new KMP(pattern, text);
+		
+		long startTime = System.nanoTime();
+		kmp.bruteForceAlgorithm(pattern, text);
+		long endTime = System.nanoTime();
+		long executionTime = endTime - startTime;
+		
+		System.out.print("\nExecuted in: " + TimeUnit.NANOSECONDS.toMillis(executionTime) % 1E+3 + " milliseconds, ");
+		System.out.print(executionTime % 1E+6 + " nanoseconds");
+	}
+	
+	@Test
+	void test7() {
+		String text = DEFAULT_STRING;
+		String pattern = "it was necessary to renounce the consciousness";
+		KMP kmp = new KMP(pattern, text);
+		
+		long startTime = System.nanoTime();
+		int searchResults = kmp.bruteForceAlgorithm(pattern, text);
+		long endTime = System.nanoTime();
+		long executionTime = endTime - startTime;
+		
+		System.out.println("\nBrute Force Search:");
+		if (searchResults == -1) {
+			System.out.println("NOT FOUND");
+		} else {
+			System.out.println("FOUND @:" + searchResults);
+		}
+		System.out.print("Executed in: " + TimeUnit.NANOSECONDS.toMillis(executionTime) + " milliseconds, ");
+		System.out.print(executionTime + " nanoseconds");
+	}
+
+	@Test
+	void test8() {
+		String text = DEFAULT_STRING;
+		String pattern = "it was necessary to renounce the consciousness";
+		KMP kmp = new KMP(pattern, text);
+		
+		long startTime = System.nanoTime();
+		int searchResults = kmp.search(pattern, text);
+		long endTime = System.nanoTime();
+		long executionTime = endTime - startTime;
+		
+		System.out.println("\nKMP Search:");
+		if (searchResults == -1) {
+			System.out.println("NOT FOUND");
+		} else {
+			System.out.println("FOUND @:" + searchResults);
+		}
+		System.out.print("Executed in: " + TimeUnit.NANOSECONDS.toMillis(executionTime) + " milliseconds, ");
+		System.out.print(executionTime + " nanoseconds");
+	}
+	
+	@Test
+	void test9a() {
+		String text = DEFAULT_STRING;
+		String pattern = "it was necessary to renounce the consciousness";
+		KMP kmp = new KMP(pattern, text);
+		
+		long startTime = System.currentTimeMillis();
+		int searchResults = kmp.search(pattern, text);
+		long endTime = System.currentTimeMillis();
+		long executionTime = endTime - startTime;
+		
+		System.out.println("\nKMP Search:");
+		if (searchResults == -1) {
+			System.out.println("NOT FOUND");
+		} else {
+			System.out.println("FOUND @:" + searchResults);
+		}
+		System.out.print("Executed in: " + executionTime + " milliseconds");
+	}
+	
+	@Test
+	void test9b() {
+		String text = DEFAULT_STRING;
+		String pattern = "it was necessary to renounce the consciousness";
+		KMP kmp = new KMP(pattern, text);
+		
+		long startTime = System.currentTimeMillis();
+		int searchResults = kmp.bruteForceAlgorithm(pattern, text);
+		long endTime = System.currentTimeMillis();
+		long executionTime = endTime - startTime;
+		
+		System.out.println("\nBrute Force Search:");
+		if (searchResults == -1) {
+			System.out.println("NOT FOUND");
+		} else {
+			System.out.println("FOUND @:" + searchResults);
+		}
+		System.out.print("Executed in: " + executionTime + " milliseconds");
+	}
+	
+	
 
 }

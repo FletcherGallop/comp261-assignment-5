@@ -79,6 +79,7 @@ public class KMP {
 	}
 	
 	public int bruteForceAlgorithm(String pattern, String text) {
+		//basic
 		//for k<- to T.length() - S.length()
 		//	if T.substring(k, S.length()).equals(S) then return k
 		//return -1
