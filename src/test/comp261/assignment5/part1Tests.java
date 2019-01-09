@@ -24,10 +24,17 @@ class part1Tests {
 	private static final File DEFAULT_EDITOR_FILE = new File("data/war_and_peace.txt"); 
 	private static String DEFAULT_STRING;
 	
+	private static final File DEFAULT_EDITOR_FILE_LONG = new File("data/war_and_peace.txt"); 
+	private static String DEFAULT_STRING_LONG;
+	
 	@BeforeAll
 	static void initialise() throws IOException {
 		byte[] encoded = Files.readAllBytes(DEFAULT_EDITOR_FILE.toPath());
 		DEFAULT_STRING = new String(encoded, StandardCharsets.UTF_8);
+		System.out.println("Before");
+		
+		byte[] encodedLong = Files.readAllBytes(DEFAULT_EDITOR_FILE_LONG.toPath());
+		DEFAULT_STRING_LONG = new String(encoded, StandardCharsets.UTF_8);
 		System.out.println("Before");
 	}
 	
@@ -99,7 +106,7 @@ class part1Tests {
 	}
 	
 	@Test
-	void test7() {
+	void test7a() {
 		String text = DEFAULT_STRING;
 		String pattern = "it was necessary to renounce the consciousness";
 		KMP kmp = new KMP(pattern, text);
@@ -120,7 +127,7 @@ class part1Tests {
 	}
 
 	@Test
-	void test8() {
+	void test7b() {
 		String text = DEFAULT_STRING;
 		String pattern = "it was necessary to renounce the consciousness";
 		KMP kmp = new KMP(pattern, text);
@@ -141,7 +148,7 @@ class part1Tests {
 	}
 	
 	@Test
-	void test9a() {
+	void test8a() {
 		String text = DEFAULT_STRING;
 		String pattern = "it was necessary to renounce the consciousness";
 		KMP kmp = new KMP(pattern, text);
@@ -161,7 +168,7 @@ class part1Tests {
 	}
 	
 	@Test
-	void test9b() {
+	void test8b() {
 		String text = DEFAULT_STRING;
 		String pattern = "it was necessary to renounce the consciousness";
 		KMP kmp = new KMP(pattern, text);
@@ -178,6 +185,11 @@ class part1Tests {
 			System.out.println("FOUND @:" + searchResults);
 		}
 		System.out.print("Executed in: " + executionTime + " milliseconds");
+	}
+	
+	@Test
+	void test9a() {
+		
 	}
 	
 	
