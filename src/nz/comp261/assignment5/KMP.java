@@ -32,17 +32,18 @@ public class KMP {
 		int m = pattern.length();
 		
 		while ( k + i < n) {
+			int matchI = this.matchTable[i];
 			if (pattern.charAt(i) == text.charAt(k+i)) { //match
 				i = i + 1;
 				if (i == m) {
 					return k;
 				}
-			} else if (this.matchTable[i] == -1) {
+			} else if (matchI == -1) {
 				k = k + i + 1;
 				i = 0;
 			} else {
-				k = k + i - this.matchTable[i];
-				i = this.matchTable[i];
+				k = k + i - matchI;
+				i = matchI;
 			}
 		}
 		

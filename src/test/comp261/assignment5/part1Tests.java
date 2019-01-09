@@ -24,17 +24,11 @@ class part1Tests {
 	private static final File DEFAULT_EDITOR_FILE = new File("data/war_and_peace.txt"); 
 	private static String DEFAULT_STRING;
 	
-	private static final File DEFAULT_EDITOR_FILE_LONG = new File("data/war_and_peace.txt"); 
-	private static String DEFAULT_STRING_LONG;
 	
 	@BeforeAll
 	static void initialise() throws IOException {
 		byte[] encoded = Files.readAllBytes(DEFAULT_EDITOR_FILE.toPath());
 		DEFAULT_STRING = new String(encoded, StandardCharsets.UTF_8);
-		System.out.println("Before");
-		
-		byte[] encodedLong = Files.readAllBytes(DEFAULT_EDITOR_FILE_LONG.toPath());
-		DEFAULT_STRING_LONG = new String(encoded, StandardCharsets.UTF_8);
 		System.out.println("Before");
 	}
 	
@@ -101,6 +95,7 @@ class part1Tests {
 		long endTime = System.nanoTime();
 		long executionTime = endTime - startTime;
 		
+		System.out.println("Test 6:");
 		System.out.print("\nExecuted in: " + TimeUnit.NANOSECONDS.toMillis(executionTime) % 1E+3 + " milliseconds, ");
 		System.out.print(executionTime % 1E+6 + " nanoseconds");
 	}
@@ -116,7 +111,8 @@ class part1Tests {
 		long endTime = System.nanoTime();
 		long executionTime = endTime - startTime;
 		
-		System.out.println("\nBrute Force Search:");
+		System.out.println("\nTest 7a:");
+		System.out.println("Brute Force Search:");
 		if (searchResults == -1) {
 			System.out.println("NOT FOUND");
 		} else {
@@ -137,7 +133,8 @@ class part1Tests {
 		long endTime = System.nanoTime();
 		long executionTime = endTime - startTime;
 		
-		System.out.println("\nKMP Search:");
+		System.out.println("\nTest 7b:");
+		System.out.println("KMP Search:");
 		if (searchResults == -1) {
 			System.out.println("NOT FOUND");
 		} else {
@@ -158,13 +155,14 @@ class part1Tests {
 		long endTime = System.currentTimeMillis();
 		long executionTime = endTime - startTime;
 		
-		System.out.println("\nKMP Search:");
+		System.out.println("\nTest 8a:");
+		System.out.println("KMP Search:");
 		if (searchResults == -1) {
 			System.out.println("NOT FOUND");
 		} else {
 			System.out.println("FOUND @:" + searchResults);
 		}
-		System.out.print("Executed in: " + executionTime + " milliseconds");
+		System.out.print("Executed in: " + executionTime + " milliseconds\n");
 	}
 	
 	@Test
@@ -178,20 +176,57 @@ class part1Tests {
 		long endTime = System.currentTimeMillis();
 		long executionTime = endTime - startTime;
 		
-		System.out.println("\nBrute Force Search:");
+		System.out.println("\nTest 8b:");
+		System.out.println("Brute Force Search:");
 		if (searchResults == -1) {
 			System.out.println("NOT FOUND");
 		} else {
 			System.out.println("FOUND @:" + searchResults);
 		}
-		System.out.print("Executed in: " + executionTime + " milliseconds");
+		System.out.print("Executed in: " + executionTime + " milliseconds\n");
 	}
 	
 	@Test
 	void test9a() {
+		String text = DEFAULT_STRING;
+		String pattern = "pigeon poop";
+		KMP kmp = new KMP(pattern, text);
 		
+		long startTime = System.currentTimeMillis();
+		int searchResults = kmp.bruteForceAlgorithm(pattern, text);
+		long endTime = System.currentTimeMillis();
+		long executionTime = endTime - startTime;
+		
+		System.out.println("\nTest 9a:");
+		System.out.println("Brute Force Search:");
+		if (searchResults == -1) {
+			System.out.println("NOT FOUND");
+		} else {
+			System.out.println("FOUND @:" + searchResults);
+		}
+		System.out.print("Executed in: " + executionTime + " milliseconds\n");
 	}
 	
+	@Test
+	void test9b() {
+		String text = DEFAULT_STRING;
+		String pattern = "pigeon poop";
+		KMP kmp = new KMP(pattern, text);
+		
+		long startTime = System.currentTimeMillis();
+		int searchResults = kmp.search(pattern, text);
+		long endTime = System.currentTimeMillis();
+		long executionTime = endTime - startTime;
+		
+		System.out.println("\nTest 9b:");
+		System.out.println("KMP:");
+		if (searchResults == -1) {
+			System.out.println("NOT FOUND");
+		} else {
+			System.out.println("FOUND @:" + searchResults);
+		}
+		System.out.print("Executed in: " + executionTime + " milliseconds\n");
+	}
 	
 
 }
