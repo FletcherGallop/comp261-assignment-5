@@ -145,7 +145,7 @@ class part1Tests {
 	}
 	
 	@Test
-	void test8a() {
+	void test8b() {
 		String text = DEFAULT_STRING;
 		String pattern = "it was necessary to renounce the consciousness";
 		KMP kmp = new KMP(pattern, text);
@@ -155,7 +155,7 @@ class part1Tests {
 		long endTime = System.currentTimeMillis();
 		long executionTime = endTime - startTime;
 		
-		System.out.println("\nTest 8a:");
+		System.out.println("\nTest 8b:");
 		System.out.println("KMP Search:");
 		if (searchResults == -1) {
 			System.out.println("NOT FOUND");
@@ -166,7 +166,7 @@ class part1Tests {
 	}
 	
 	@Test
-	void test8b() {
+	void test8a() {
 		String text = DEFAULT_STRING;
 		String pattern = "it was necessary to renounce the consciousness";
 		KMP kmp = new KMP(pattern, text);
@@ -176,7 +176,7 @@ class part1Tests {
 		long endTime = System.currentTimeMillis();
 		long executionTime = endTime - startTime;
 		
-		System.out.println("\nTest 8b:");
+		System.out.println("\nTest 8a:");
 		System.out.println("Brute Force Search:");
 		if (searchResults == -1) {
 			System.out.println("NOT FOUND");

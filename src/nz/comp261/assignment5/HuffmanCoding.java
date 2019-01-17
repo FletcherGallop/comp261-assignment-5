@@ -1,4 +1,7 @@
 package nz.comp261.assignment5;
+
+import java.util.PriorityQueue;
+
 /**
  * A new instance of HuffmanCoding is created for every run. The constructor is
  * passed the full text to be encoded or decoded, so this is a good place to
@@ -6,6 +9,27 @@ package nz.comp261.assignment5;
  * the encode and decode methods.
  */
 public class HuffmanCoding {
+	private static final int ASCII = 256;
+	
+	private static class HuffmanNode {
+		char character;
+		int frequency;
+		HuffmanNode left;
+		HuffmanNode right;
+		
+		HuffmanNode(char character, int frequency, HuffmanNode left, HuffmanNode right) {
+			this.character = character;
+			this.frequency = frequency;
+			this.left = left;
+			this.right = right;
+		}
+		
+		public int compareWith(HuffmanNode node2) { //comparison based on frequency
+			return this.frequency - node2.frequency; 
+		}
+	}
+	
+	
 	/**
 	 * This would be a good place to compute and store the tree.
 	 */
@@ -19,7 +43,18 @@ public class HuffmanCoding {
 	 * only 1 and 0.
 	 */
 	public String encode(String text) {
-		// TODO fill this in.
+		//get Char Frequency
+		int[] freq = new int[ASCII];
+		for (int i = 0; i < text.length(); i++) {
+			freq[text.toCharArray()[i]]++;
+		}
+		
+		
+		//build tree
+		HuffmanNode root = constructTree(freq);
+		//generate codes
+		//encode message
+		
 		return "";
 	}
 
@@ -41,4 +76,14 @@ public class HuffmanCoding {
 	public String getInformation() {
 		return "";
 	}
+	
+	public HuffmanNode constructTree(int[] frequency) {
+		PriorityQueue<HuffmanNode> priorityQ = new PriorityQueue<HuffmanNode>();
+		return null;
+	}
+	
+	
+	
+	
 }
+ 
