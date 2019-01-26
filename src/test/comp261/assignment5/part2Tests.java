@@ -10,11 +10,24 @@ import nz.comp261.assignment5.KMP;
 class part2Tests {
 
 	@Test
-	void test() {
+	void test1() {
 		String text = "The cat jumped over the rat.";
 		HuffmanCoding huff = new HuffmanCoding(text);
 		
-		huff.encode(text);
+		String huffEncoded = huff.encode(text);
+		
+		System.out.println(huffEncoded);
+	}
+	
+	@Test
+	void test2() {
+		String text = "The cat jumped over the rat.";
+		HuffmanCoding huff = new HuffmanCoding(text);		
+		String huffEncoded = huff.encode(text);
+		
+		String huffDecoded = huff.decode(huffEncoded);
+		
+		System.out.println(huffDecoded);
 	}
 
 }
