@@ -16,7 +16,7 @@ class part2Tests {
 		
 		String huffEncoded = huff.encode(text);
 		
-		System.out.println(huffEncoded);
+//		System.out.println(huffEncoded);
 	}
 	
 	@Test
@@ -24,10 +24,22 @@ class part2Tests {
 		String text = "The cat jumped over the rat.";
 		HuffmanCoding huff = new HuffmanCoding(text);		
 		String huffEncoded = huff.encode(text);
-		
 		String huffDecoded = huff.decode(huffEncoded);
 		
-		System.out.println(huffDecoded);
+//		System.out.println(huffDecoded);
+		assertTrue(text.compareTo(huffDecoded) == 0);
+	}
+	
+	@Test
+	void test3() {
+		String text = "Are we human? Or are we dancers? My sign is vital, my hands are cold.";
+		HuffmanCoding huff = new HuffmanCoding(text);		
+		String huffEncoded = huff.encode(text);
+		String huffDecoded = huff.decode(huffEncoded);
+		
+//		System.out.println(huffEncoded);
+//		System.out.println(huffDecoded);
+		assertTrue(text.compareTo(huffDecoded) == 0);
 	}
 
 }

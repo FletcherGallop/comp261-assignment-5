@@ -15,7 +15,7 @@ import java.util.TreeMap;
 public class HuffmanCoding {
 	private static final int ASCII = 256;
 	public String text;
-	public Map<Character, String> tree = new TreeMap<>();
+	public Map<String, Character> tree = new TreeMap<>();
 	public HuffmanNode rootNode; 
 	
 	private static class HuffmanNode implements Comparable<HuffmanNode> {
@@ -79,7 +79,6 @@ public class HuffmanCoding {
 		
 		//output tree
 		outputTree(root, codes);
-//		System.out.println(tree);
 		
 		//encode message
 		String encoded = new String();
@@ -87,17 +86,12 @@ public class HuffmanCoding {
 			String code = codes[text.charAt(i)];
 			for (int j = 0; j < code.length(); j++) {
 				if (code.charAt(j) == '0') {
-//					System.out.print('0');
 					encoded += '0';
 				} else if (code.charAt(j) == '1') {
-//					System.out.print('1');
 					encoded += '1';
 				}
 			}
-		}
-		
-//		System.out.print(tree);
-		
+		}		
 		return encoded;
 	}
 
@@ -109,57 +103,16 @@ public class HuffmanCoding {
 	public String decode(String encoded) {
 		boolean decoded = false;
 		String decodedText = new String();
-		
-//		while (encoded.length() > 0) {
-//			for (Map.Entry<Character, String> entry : tree.entrySet()) {
-////				System.out.println(entry.getValue());
-//				if (encoded.startsWith(entry.getValue())) {
-//					Character decodedChar = entry.getKey();
-//					decodedText += decodedChar;
-//					encoded = encoded.replace(entry.getValue(), "");
-//					System.out.println(encoded);
-//					System.out.println(decodedText);
-//				}
-//			}
-//		}		
-//		List<String> codes = new ArrayList<String>();
-//			
-//		for (Map.Entry<Character, String> entry : tree.entrySet()) {
-//			Character decodedChar = entry.getKey();
-//			String code = entry.getValue();
-//			codes.add(code);
-//		}
-//		
-//		while (encoded.length() > 0) {
-//			for (String code : codes) {
-//				if (encoded.startsWith(code)) {
-//					System.out.println(code);
-//					encoded = encoded.substring(code.length()-1, encoded.length());
-//				}
-//			}
-//		}
-//		
-//		int maxLength = 0; 
-//		
-//		for (Map.Entry<Character, String> entry : tree.entrySet()) {
-//			if (entry.getValue().length() > maxLength) {
-//				maxLength = entry.getValue().length();
-//			}
-//		}
-		
-//		char[] encodedArray = encoded.toCharArray();
-		
-		
-		for (int i = 0; encoded.length() > i; i++) {
-			if (tree.containsValue(encoded.substring(0, i))) {
-				System.out.println(encoded.substring(0, i));
-				
+
+		for (int i = 0; encoded.length() >= i; i++) {
+			if (tree.containsKey(encoded.substring(0, i))) {
+				decodedText += tree.get(encoded.substring(0, i));
+				encoded = encoded.substring(i);
+				i = 0;
 			}
 		}
-		
-		System.out.println(decodedText);
-		
-		return "";
+				
+		return decodedText;
 	}
 	
 	
@@ -185,7 +138,6 @@ public class HuffmanCoding {
 		}
 		
 		while (priorityQ.size() > 1) {
-//			System.out.println(priorityQ.poll().character);
 			HuffmanNode left = priorityQ.poll();
 			HuffmanNode right = priorityQ.poll();
 			HuffmanNode parent = new HuffmanNode('\0', left.frequency + right.frequency, left, right);
@@ -201,7 +153,7 @@ public class HuffmanCoding {
 			generateCodes(codes, node.right, s + '1'); //right gets prefixed with 1
 		} else {
 			codes[node.character] = s;
-			this.tree.put(node.character, s);
+			this.tree.put(s, node.character);
 		}
 	}
 	
@@ -209,7 +161,7 @@ public class HuffmanCoding {
 		if (node.isLeafNode()) {
 			//print node
 //			System.out.println("LEAF char=" + node.character + ", freq=" + node.frequency + ", code=" + codes[node.character]);
-			tree.put(node.character, codes[node.character]);
+			tree.put(codes[node.character], node.character);
 		} else {
 			outputTree(node.left, codes);
 			outputTree(node.right, codes);
