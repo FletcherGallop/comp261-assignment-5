@@ -2,6 +2,9 @@ package nz.comp261.assignment5;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A new instance of LempelZiv is created for every run.
@@ -91,12 +94,34 @@ public class LempelZiv {
 	 * text string.
 	 */
 	public String decompress(String compressed) {
-		ArrayList<LZTuple> compressedTuples = new ArrayList<>();
+//		ArrayList<LZTuple> compressedTuples = new ArrayList<>();
 		
-		for (String s : compressed.split("|")) {
-			System.out.println(s);
-		}
+////		for (String s : compressed.split("|")) {
+////			System.out.println(s);
+////		}
+//		
+//		System.out.println(compressed);
+//		
+//		String[] splitCompressed = compressed.split("|");
+////		System.out.println(splitCompressed[0]);
+////		
+////		for (int i = 0; i <= splitCompressed.length; i++) {
+////			if (splitCompressed[i].compareTo("[") == 0) {
+////				System.out.println(splitCompressed[0]);
+//////				for (int j = i; j <= splitCompressed.length; j++) {
+//////					if (splitCompressed[i].compareTo("]") == 0) {
+//////						System.out.println(splitCompressed[i]);
+//////						System.out.println(splitCompressed[j]);
+//////					}
+//////				}
+////			}
+////		}
 		
+		List<String> individualTuples = new ArrayList<>(Arrays.asList(compressed.split("\\[")));
+		individualTuples.remove(0);
+		individualTuples = individualTuples.stream().map(token -> token.replaceAll("\\]\\|?", "")).collect(Collectors.toList());
+		final List<LZTuple> tuples = individualTuples.stream().map(token -> token.split("\\|")).map(LZTuple::new).collect(Collectors.toList());
+		tuples.forEach(System.out::println);
 		return "";
 	}
 
@@ -110,6 +135,7 @@ public class LempelZiv {
 		return "";
 	}
 
+	
 }
 
 class LZTuple {
@@ -128,18 +154,22 @@ class LZTuple {
 		return "[" + this.offset + "|" + this.length + "|" + this.character + "]";
 	}
 	
-	public LZTuple(String tupleString) {
-		int indexOfOpen = tupleString.indexOf("[");
-		int indexOfEnd = tupleString.lastIndexOf("]");
-		
-		String removedBrackets = tupleString.substring(indexOfOpen+1, indexOfEnd);
-		String[] splitTuple = tupleString.split("|");
-		
-		this.offset = Integer.parseInt(splitTuple[0]);
-		this.length = Integer.parseInt(splitTuple[1]);
-		this.character = splitTuple[2].charAt(0);
+//	public LZTuple(String tupleString) {
+//		int indexOfOpen = tupleString.indexOf("[");
+//		int indexOfEnd = tupleString.lastIndexOf("]");
+//		
+//		String removedBrackets = tupleString.substring(indexOfOpen+1, indexOfEnd);
+//		String[] splitTuple = tupleString.split("|");
+//		
+//		this.offset = Integer.parseInt(splitTuple[0]);
+//		this.length = Integer.parseInt(splitTuple[1]);
+//		this.character = splitTuple[2].charAt(0);
+//	
+//	}
 	
-	}
+	public LZTuple(String... strings) {
+        this(Integer.valueOf(strings[0]), Integer.valueOf(strings[1]), strings[2].charAt(0));
+    }
 	
 	public void addToBuffer(ByteBuffer buffer) {
 		buffer.putInt(offset);
@@ -147,3 +177,4 @@ class LZTuple {
 		buffer.putChar(character);
 	}
 }
+
