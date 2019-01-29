@@ -94,7 +94,7 @@ public class LempelZiv {
 	 * text string.
 	 */
 	public String decompress(String compressed) {
-//		ArrayList<LZTuple> compressedTuples = new ArrayList<>();
+		ArrayList<LZTuple> decompressedTuples = new ArrayList<>();
 		
 ////		for (String s : compressed.split("|")) {
 ////			System.out.println(s);
@@ -121,8 +121,22 @@ public class LempelZiv {
 		individualTuples.remove(0);
 		individualTuples = individualTuples.stream().map(token -> token.replaceAll("\\]\\|?", "")).collect(Collectors.toList());
 		final List<LZTuple> tuples = individualTuples.stream().map(token -> token.split("\\|")).map(LZTuple::new).collect(Collectors.toList());
-		tuples.forEach(System.out::println);
-		return "";
+		tuples.forEach(decompressedTuples::add);
+		
+		StringBuilder output = new StringBuilder();
+		
+		for (LZTuple tuple : decompressedTuples) {
+			if (tuple.length == 0) { 
+				output.append(tuple.character);
+			} else {
+				for (int i = 0; i < tuple.length; i++) {
+					output.append(output.charAt(output.length() - tuple.offset));
+				}
+				output.append(tuple.character);
+			}
+		}
+		
+		return output.toString();
 	}
 
 	/**

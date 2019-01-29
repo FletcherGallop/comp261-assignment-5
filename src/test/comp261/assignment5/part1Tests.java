@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -219,6 +220,29 @@ class part1Tests {
 		long executionTime = endTime - startTime;
 		
 		System.out.println("\nTest 9b:");
+		System.out.println("KMP:");
+		if (searchResults == -1) {
+			System.out.println("NOT FOUND");
+		} else {
+			System.out.println("FOUND @:" + searchResults);
+		}
+		System.out.print("Executed in: " + executionTime + " milliseconds\n");
+	}
+	
+	@Test
+	void test10() throws UnsupportedEncodingException, IOException { 
+		String text = new String(Files.readAllBytes(Paths.get("data/war_and_peace.txt")), "UTF-8");
+		
+//		System.out.println(content);
+		String pattern = "and to recognize a dependence of which";
+		KMP kmp = new KMP(pattern, text);
+		
+		long startTime = System.currentTimeMillis();
+		int searchResults = kmp.search(pattern, text);
+		long endTime = System.currentTimeMillis();
+		long executionTime = endTime - startTime;
+		
+		System.out.println("\nWar and Peace Test:");
 		System.out.println("KMP:");
 		if (searchResults == -1) {
 			System.out.println("NOT FOUND");

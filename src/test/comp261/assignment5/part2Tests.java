@@ -2,6 +2,11 @@ package test.comp261.assignment5;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.junit.jupiter.api.Test;
 
 import nz.comp261.assignment5.HuffmanCoding;
@@ -40,6 +45,16 @@ class part2Tests {
 //		System.out.println(huffEncoded);
 //		System.out.println(huffDecoded);
 		assertTrue(text.compareTo(huffDecoded) == 0);
+	}
+	
+	@Test 
+	void test4() throws UnsupportedEncodingException, IOException {
+		String text = new String(Files.readAllBytes(Paths.get("data/war_and_peace.txt")), "UTF-8");
+		
+		HuffmanCoding huff = new HuffmanCoding(text);		
+		String huffEncoded = huff.encode(text);
+		
+		System.out.println(huffEncoded.length());
 	}
 
 }
