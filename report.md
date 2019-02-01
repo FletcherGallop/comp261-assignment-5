@@ -15,8 +15,12 @@ The results are now as I'd expected. When the pattern isn't in the text, then th
 
 **Question 2**: Report the binary tree of codes your algorithm generates, and the final size of War and Peace after Huffman coding.
 
-**Question 3**: Consider the Huffman coding of war_and_peace.txt, taisho.txt, and pi.txt. Which of these achieves the best compression, i.e. the best reduction in size? What makes some of the encodings better than others?
+**Question 3**: Consider the Huffman coding of war_and_peace.txt, taisho.txt, and pi.txt. 
+Which of these achieves the best compression, i.e. the best reduction in size? 
+What makes some of the encodings better than others?
 
-**Question 4**: The Lempel-Ziv algorithm has a parameter: the size of the sliding window. On a text of your choice, how does changing the window size affect the quality of the compression?
+**Question 4**: The Lempel-Ziv algorithm has a parameter: the size of the sliding window.
+ On a text of your choice, how does changing the window size affect the quality of the compression?
 
-**Question 5**: What happens if you Huffman encode War and Peace before applying Lempel- Ziv compression to it? Do you get a smaller file size (in characters) overall?
+**Question 5**: What happens if you Huffman encode War and Peace before applying Lempel- Ziv compression to it?
+ Do you get a smaller file size (in characters) overall?
