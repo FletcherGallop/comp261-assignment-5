@@ -49,7 +49,7 @@ class part2Tests {
 	
 	@Test 
 	void test4() throws UnsupportedEncodingException, IOException {
-		String text = new String(Files.readAllBytes(Paths.get("data/war_and_peace.txt")), "UTF-8");
+		String text = new String(Files.readAllBytes(Paths.get("data/war_and_peace.txt")), "UTF-8"); //I think it's this line here, but I don;t know how else to do it. 
 		
 		HuffmanCoding huff = new HuffmanCoding(text);		
 		String huffEncoded = huff.encode(text);

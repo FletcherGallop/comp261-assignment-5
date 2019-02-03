@@ -64,9 +64,11 @@ public class HuffmanCoding {
 	 */
 	public String encode(String text) {
 		//get Char frequency
+		final byte[] textArray = text.getBytes();// this is unchanging throughout the loop
 		int[] freq = new int[ASCII];
 		for (int i = 0; i < text.length(); i++) {
-			freq[text.toCharArray()[i]]++;
+//			System.out.println(String.format("index: %s, value: %s", i, (int) textArray[i]));
+			freq[textArray[i]+128]++;
 		}
 		
 		//build tree
@@ -74,7 +76,7 @@ public class HuffmanCoding {
 		rootNode = root;
 		
 		//generate codes
-		String[] codes = new String[ASCII];
+		Map<Integer, String> codes = new TreeMap<>();
 		generateCodes(codes, root, "");
 		
 		//output tree
@@ -83,7 +85,7 @@ public class HuffmanCoding {
 		//encode message
 		String encoded = new String();
 		for (int i = 0; i < text.length(); i++) {
-			String code = codes[text.charAt(i)];
+			String code = codes.get((int) text.charAt(i));
 			for (int j = 0; j < code.length(); j++) {
 				if (code.charAt(j) == '0') {
 					encoded += '0';
@@ -133,7 +135,7 @@ public class HuffmanCoding {
 //			System.out.println(frequency[i]);
 			if (frequency[i] > 0) {
 //				System.out.println(i); //character
-				priorityQ.add(new HuffmanNode(i, frequency[i], null, null));
+				priorityQ.add(new HuffmanNode((char) (i-128), frequency[i], null, null));
 			}
 		}
 		
@@ -147,21 +149,21 @@ public class HuffmanCoding {
 		return priorityQ.poll();
 	}
 	
-	public void generateCodes(String[] codes, HuffmanNode node, String s) {
+	public void generateCodes(Map<Integer, String> codes, HuffmanNode node, String s) {
 		if (!node.isLeafNode()) { 
 			generateCodes(codes, node.left, s + '0'); //if left then prefix another 0
 			generateCodes(codes, node.right, s + '1'); //right gets prefixed with 1
 		} else {
-			codes[node.character] = s;
+			codes.put((int) node.character, s);
 			this.tree.put(s, node.character);
 		}
 	}
 	
-	private void outputTree(HuffmanNode node, String[] codes) {		
+	private void outputTree(HuffmanNode node, Map<Integer, String> codes) {		
 		if (node.isLeafNode()) {
 			//print node
 //			System.out.println("LEAF char=" + node.character + ", freq=" + node.frequency + ", code=" + codes[node.character]);
-			tree.put(codes[node.character], node.character);
+			tree.put(codes.get((int) node.character), node.character);
 		} else {
 			outputTree(node.left, codes);
 			outputTree(node.right, codes);
