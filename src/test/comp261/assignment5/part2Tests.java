@@ -15,7 +15,7 @@ import nz.comp261.assignment5.KMP;
 class part2Tests {
 
 	@Test
-	void test1() {
+	void basicEncodeTest() {
 		String text = "The cat jumped over the rat.";
 		HuffmanCoding huff = new HuffmanCoding(text);
 		
@@ -25,7 +25,7 @@ class part2Tests {
 	}
 	
 	@Test
-	void test2() {
+	void testEncodeThenDecodeMatch() {
 		String text = "The cat jumped over the rat.";
 		HuffmanCoding huff = new HuffmanCoding(text);		
 		String huffEncoded = huff.encode(text);
@@ -36,7 +36,7 @@ class part2Tests {
 	}
 	
 	@Test
-	void test3() {
+	void testEncodeThenDecodeMatch2() {
 		String text = "Are we human? Or are we dancers? My sign is vital, my hands are cold.";
 		HuffmanCoding huff = new HuffmanCoding(text);		
 		String huffEncoded = huff.encode(text);
@@ -48,8 +48,9 @@ class part2Tests {
 	}
 	
 	@Test 
-	void test4() throws UnsupportedEncodingException, IOException {
+	void testEncodeFile() throws UnsupportedEncodingException, IOException {
 		String text = new String(Files.readAllBytes(Paths.get("data/war_and_peace.txt")), "UTF-8"); //I think it's this line here, but I don;t know how else to do it. 
+		System.out.println(text.length());
 		
 		HuffmanCoding huff = new HuffmanCoding(text);		
 		String huffEncoded = huff.encode(text);

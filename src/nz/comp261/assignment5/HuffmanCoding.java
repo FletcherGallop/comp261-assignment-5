@@ -83,18 +83,19 @@ public class HuffmanCoding {
 		outputTree(root, codes);
 		
 		//encode message
-		String encoded = new String();
+		StringBuffer encoded = new StringBuffer();
+		
+		System.out.println("Before");
 		for (int i = 0; i < text.length(); i++) {
 			String code = codes.get((int) text.charAt(i));
-			for (int j = 0; j < code.length(); j++) {
-				if (code.charAt(j) == '0') {
-					encoded += '0';
-				} else if (code.charAt(j) == '1') {
-					encoded += '1';
-				}
+			if (null != code) {
+				encoded.append(code);
+			} else {
+//				continue;
 			}
-		}		
-		return encoded;
+		}
+		System.out.println("After");
+		return encoded.toString();
 	}
 
 	
