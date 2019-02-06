@@ -1,5 +1,8 @@
 package nz.comp261.assignment5;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,8 +64,9 @@ public class HuffmanCoding {
 	 * Take an input string, text, and encode it with the stored tree. Should
 	 * return the encoded text as a binary string, that is, a string containing
 	 * only 1 and 0.
+	 * @throws IOException 
 	 */
-	public String encode(String text) {
+	public byte[] encode(String text) throws IOException {
 		//get Char frequency
 		final byte[] textArray = text.getBytes();// this is unchanging throughout the loop
 		int[] freq = new int[ASCII];
@@ -94,23 +98,67 @@ public class HuffmanCoding {
 //				continue;
 			}
 		}
-		System.out.println("After");
-		return encoded.toString();
+//		System.out.println("After");
+		
+		return encodeToBytes(encoded.toString());
 	}
 
+	/**@param input a string of zeroes and ones
+	 * @return an array of bytes whose bit string matches the bit string represented by input
+	 * @throws IOException */
+	static byte[] encodeToBytes(final String input) throws IOException {
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		int l = input.length();
+		
+		
+		
+		byte one = (byte)(l   & 0xFF000000);
+		byte two = (byte)(l   & 0x00ff0000);
+		byte three = (byte)(l & 0x0000ff00);
+		byte four = (byte)(l  & 0x000000ff);
+		
+		baos.write(new byte[] {one, two, three, four});
+		
+		
+		int theByte = 0;
+		for (int i=0; i<input.length(); ++i) {
+			theByte <<= 1;
+			
+			if(input.charAt(i) ==  '1') {
+				theByte |= 1; // set last bit of theByte to 1
+			}
+			
+			if((i+1)%8==0) {
+				// we are on a byte boundary
+				baos.write(theByte); // spit it out
+				theByte = 0; // start again
+			} else if ( i == input.length()-1){
+				// we are not on a byte boundary, but are at the end of the input
+				theByte <<= (i+1)%8;
+				baos.write(theByte); // spit it out
+				
+			}
+			
+		}
+		
+		
+		return baos.toByteArray();
+	}
 	
 	/**
 	 * Take encoded input as a binary string, decode it using the stored tree,
 	 * and return the decoded text as a text string.
 	 */
-	public String decode(String encoded) {
+	public String decode(byte[] encoded) {
 		boolean decoded = false;
+		String encodedString = decodeFromBytes(encoded);
 		String decodedText = new String();
 
-		for (int i = 0; encoded.length() >= i; i++) {
-			if (tree.containsKey(encoded.substring(0, i))) {
-				decodedText += tree.get(encoded.substring(0, i));
-				encoded = encoded.substring(i);
+		for (int i = 0; encodedString.length() >= i; i++) {
+			if (tree.containsKey(encodedString.substring(0, i))) {
+				decodedText += tree.get(encodedString.substring(0, i));
+				encodedString = encodedString.substring(i);
 				i = 0;
 			}
 		}
@@ -118,6 +166,32 @@ public class HuffmanCoding {
 		return decodedText;
 	}
 	
+	static String decodeFromBytes(final byte[] input) {
+		final StringBuffer out = new StringBuffer();
+		
+		final ByteArrayInputStream bais = new ByteArrayInputStream(input);
+		int one = bais.read();
+		int two = bais.read();
+		int three = bais.read();
+		int four = bais.read();
+		int bitsToRecover = (one << 24) | (two << 16) | three << 8 | four;
+				
+		
+		int theByte;
+		while (true) {
+			theByte = bais.read();
+		
+			for(int i=0; i<8;++i) {
+				int theBit = (theByte & 0b10000000) >> 7;	
+				out.append(theBit);
+				if( --bitsToRecover == 0) {
+					// we have recovered everything
+					return out.toString();
+				}
+				theByte <<= 1; // we have read this bit, shift everything up by 1 
+			}
+		}		
+	}
 	
 	/**
 	 * The getInformation method is here for your convenience, you don't need to
