@@ -89,7 +89,7 @@ public class HuffmanCoding {
 		//encode message
 		StringBuffer encoded = new StringBuffer();
 		
-		System.out.println("Before");
+//		System.out.println("Before");
 		for (int i = 0; i < text.length(); i++) {
 			String code = codes.get((int) text.charAt(i));
 			if (null != code) {
